@@ -190,7 +190,6 @@ const checkoutState = document.getElementById('checkoutState');
 
 if (cartTrigger && cartDrawer && cartBackdrop && cartItems && cartEmpty && cartTotal) {
   const CART_KEY = 'chewiekids-cart-v1';
-  const SHOPEE_LINK = 'https://my.shp.ee/9YJatZ5g';
   const WHATSAPP_NUMBER = '601158559709';
   const PRODUCT_IMAGE_MAP = {
     '入门之选 · 初体验配套': 'Package1.png',
@@ -329,6 +328,33 @@ if (cartTrigger && cartDrawer && cartBackdrop && cartItems && cartEmpty && cartT
     ].join('\n');
   }
 
+  function buildCheckoutPayload() {
+    const firstName = checkoutFirstName ? checkoutFirstName.value.trim() : '';
+    const lastName = checkoutLastName ? checkoutLastName.value.trim() : '';
+    const fullName = `${firstName} ${lastName}`.trim();
+
+    return {
+      items: cart.map((item) => ({
+        name: item.name,
+        price: item.price,
+        qty: item.qty
+      })),
+      totalAmount: getTotalAmount(),
+      customer: {
+        name: fullName,
+        email: checkoutEmail ? checkoutEmail.value.trim() : '',
+        mobile: checkoutPhone ? checkoutPhone.value.trim() : '',
+        firstName,
+        lastName,
+        address: checkoutAddress ? checkoutAddress.value.trim() : '',
+        apartment: checkoutApartment ? checkoutApartment.value.trim() : '',
+        postcode: checkoutPostcode ? checkoutPostcode.value.trim() : '',
+        city: checkoutCity ? checkoutCity.value.trim() : '',
+        state: checkoutState ? checkoutState.value.trim() : ''
+      }
+    };
+  }
+
   function validateCheckout() {
     if (!cart.length) {
       alert('购物车是空的，请先加入配套。');
@@ -396,9 +422,35 @@ if (cartTrigger && cartDrawer && cartBackdrop && cartItems && cartEmpty && cartT
   cartClose?.addEventListener('click', closeCart);
   cartBackdrop.addEventListener('click', closeCart);
 
-  checkoutPayBtn?.addEventListener('click', () => {
+  checkoutPayBtn?.addEventListener('click', async () => {
     if (!validateCheckout()) return;
-    window.open(SHOPEE_LINK, '_blank', 'noopener');
+
+    const originalText = checkoutPayBtn.textContent;
+    checkoutPayBtn.disabled = true;
+    checkoutPayBtn.textContent = '正在创建账单...';
+
+    try {
+      const payload = buildCheckoutPayload();
+      const response = await fetch('/api/billplz/create-bill', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+      if (!response.ok || !result.url) {
+        throw new Error(result.error || '创建 Billplz 账单失败');
+      }
+
+      window.location.href = result.url;
+    } catch (error) {
+      alert(error instanceof Error ? error.message : '创建账单失败，请稍后重试。');
+    } finally {
+      checkoutPayBtn.disabled = false;
+      checkoutPayBtn.textContent = originalText || '去 Billplz 付款';
+    }
   });
 
   checkoutWhatsAppBtn?.addEventListener('click', () => {
