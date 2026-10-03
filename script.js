@@ -12,6 +12,29 @@ if (heroImages.length > 1) {
 const hourEl = document.getElementById('h');
 const minuteEl = document.getElementById('m');
 const secondEl = document.getElementById('s');
+const navToggle = document.getElementById('navToggle');
+const mainNav = document.getElementById('mainNav');
+
+if (navToggle && mainNav) {
+  function setNavOpen(isOpen) {
+    mainNav.classList.toggle('is-open', isOpen);
+    navToggle.classList.toggle('is-open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
+
+  navToggle.addEventListener('click', () => {
+    const isOpen = !mainNav.classList.contains('is-open');
+    setNavOpen(isOpen);
+  });
+
+  mainNav.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setNavOpen(false));
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) setNavOpen(false);
+  });
+}
 
 if (hourEl && minuteEl && secondEl) {
   // Create a rolling 24-hour promo countdown.
@@ -177,7 +200,6 @@ const cartEmpty = document.getElementById('cartEmpty');
 const cartTotal = document.getElementById('cartTotal');
 const checkoutForm = document.getElementById('checkoutForm');
 const checkoutPayBtn = document.getElementById('checkoutPayBtn');
-const checkoutWhatsAppBtn = document.getElementById('checkoutWhatsAppBtn');
 const checkoutEmail = document.getElementById('checkoutEmail');
 const checkoutPhone = document.getElementById('checkoutPhone');
 const checkoutFirstName = document.getElementById('checkoutFirstName');
@@ -190,7 +212,6 @@ const checkoutState = document.getElementById('checkoutState');
 
 if (cartTrigger && cartDrawer && cartBackdrop && cartItems && cartEmpty && cartTotal) {
   const CART_KEY = 'chewiekids-cart-v1';
-  const WHATSAPP_NUMBER = '601158559709';
   const PRODUCT_IMAGE_MAP = {
     '入门之选 · 初体验配套': 'Package1.png',
     '多宝配套 · 3套': 'Package2.png',
@@ -300,32 +321,6 @@ if (cartTrigger && cartDrawer && cartBackdrop && cartItems && cartEmpty && cartT
     }
     saveCart();
     renderCart();
-  }
-
-  function buildOrderMessage() {
-    const lines = cart.map((item) => `- ${item.name} x${item.qty} (${formatRM(item.price * item.qty)})`);
-    const firstName = checkoutFirstName ? checkoutFirstName.value.trim() : '';
-    const lastName = checkoutLastName ? checkoutLastName.value.trim() : '';
-    const fullName = `${firstName} ${lastName}`.trim();
-    const addressLine1 = checkoutAddress ? checkoutAddress.value.trim() : '';
-    const apartment = checkoutApartment ? checkoutApartment.value.trim() : '';
-    const postcode = checkoutPostcode ? checkoutPostcode.value.trim() : '';
-    const city = checkoutCity ? checkoutCity.value.trim() : '';
-    const state = checkoutState ? checkoutState.value.trim() : '';
-    const email = checkoutEmail ? checkoutEmail.value.trim() : '';
-    return [
-      '你好，我要下单 Chewie Kids：',
-      ...lines,
-      `总金额：${formatRM(getTotalAmount())}`,
-      `姓名：${fullName}`,
-      `电话：${checkoutPhone ? checkoutPhone.value.trim() : ''}`,
-      `Email：${email || '-'}`,
-      `地址：${addressLine1}`,
-      `Apartment/Suite：${apartment || '-'}`,
-      `Postcode：${postcode}`,
-      `City：${city}`,
-      `State：${state}`
-    ].join('\n');
   }
 
   function buildCheckoutPayload() {
@@ -449,14 +444,8 @@ if (cartTrigger && cartDrawer && cartBackdrop && cartItems && cartEmpty && cartT
       alert(error instanceof Error ? error.message : '创建账单失败，请稍后重试。');
     } finally {
       checkoutPayBtn.disabled = false;
-      checkoutPayBtn.textContent = originalText || '去 Billplz 付款';
+      checkoutPayBtn.textContent = originalText || '付款';
     }
-  });
-
-  checkoutWhatsAppBtn?.addEventListener('click', () => {
-    if (!validateCheckout()) return;
-    const msg = encodeURIComponent(buildOrderMessage());
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener');
   });
 
   checkoutForm?.addEventListener('submit', (event) => {

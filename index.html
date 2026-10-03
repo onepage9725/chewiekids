@@ -22,7 +22,19 @@
       <a class="brand" href="#top" aria-label="Chewie Kids 首页">
         <img src="ckg logo.png" alt="Chewie Kids Logo" class="brand-logo" />
       </a>
-      <nav class="main-nav">
+      <button
+        type="button"
+        class="nav-toggle"
+        id="navToggle"
+        aria-label="打开导航菜单"
+        aria-controls="mainNav"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="main-nav" id="mainNav">
         <a href="#home">首页</a>
         <a href="#packages">产品配套</a>
         <a href="#benefits">主打功效</a>
@@ -562,10 +574,8 @@
               <option value="Terengganu">Terengganu</option>
             </select>
           </label>
-          <p class="checkout-note">付款方式：点击「去 Billplz 付款」完成线上支付。支付后系统会自动返回结果页。</p>
           <div class="checkout-actions">
-            <button type="button" class="btn" id="checkoutPayBtn">去 Billplz 付款</button>
-            <button type="button" class="btn btn-outline-dark" id="checkoutWhatsAppBtn">发送订单到 WhatsApp</button>
+            <button type="button" class="btn" id="checkoutPayBtn">付款</button>
           </div>
         </form>
       </div>
