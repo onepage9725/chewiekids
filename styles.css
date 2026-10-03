@@ -295,6 +295,7 @@ img {
 }
 
 .countdown-right {
+  position: relative;
   background: rgba(255, 255, 255, 0.45);
   border: 1px solid color-mix(in srgb, var(--champagne) 35%, white);
   border-radius: 18px;
@@ -302,12 +303,23 @@ img {
   display: grid;
   gap: 0.7rem;
   justify-items: center;
+  overflow: visible;
 }
 
 .pharma-image {
   width: 100%;
   height: auto;
   border-radius: 12px;
+}
+
+.pharma-giraffe-corner {
+  position: absolute;
+  width: clamp(99px, 15vw, 192px);
+  right: clamp(-32px, -2.6vw, -18px);
+  bottom: clamp(-28px, -2.3vw, -16px);
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 16px rgba(56, 37, 28, 0.16));
 }
 
 .countdown-card h2 {
@@ -527,6 +539,17 @@ h2 {
 
 .package-card h3 {
   margin: 0;
+}
+
+.package-icon {
+  position: absolute;
+  right: clamp(16px, 2.2vw, 30px);
+  bottom: clamp(64px, 6.6vw, 104px);
+  transform: none;
+  width: clamp(108px, 12vw, 170px);
+  height: auto;
+  filter: drop-shadow(0 6px 10px rgba(56, 37, 28, 0.16));
+  pointer-events: none;
 }
 
 .package-image {
@@ -1414,6 +1437,18 @@ summary {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
 
+  .package-card {
+    padding-right: 1.25rem;
+  }
+
+  .package-icon {
+    position: absolute;
+    right: clamp(12px, 2.6vw, 20px);
+    bottom: clamp(54px, 10vw, 88px);
+    width: clamp(82px, 15vw, 112px);
+    margin: 0;
+  }
+
   .benefit-grid {
     grid-template-columns: repeat(3, minmax(150px, 1fr));
   }
@@ -1481,6 +1516,12 @@ summary {
 
   .timer div {
     min-width: 104px;
+  }
+
+  .pharma-giraffe-corner {
+    width: clamp(90px, 21vw, 153px);
+    right: -14px;
+    bottom: -14px;
   }
 }
 
@@ -1592,6 +1633,18 @@ summary {
 
   .feedback-slide img {
     height: clamp(220px, 68vw, 330px);
+  }
+
+  .package-icon {
+    right: 44px;
+    bottom: clamp(108px, 26vw, 152px);
+    width: clamp(100px, 27vw, 136px);
+  }
+
+  .pharma-giraffe-corner {
+    width: clamp(84px, 27vw, 129px);
+    right: -10px;
+    bottom: -10px;
   }
 
   .good-comments-row {
