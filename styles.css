@@ -1486,10 +1486,40 @@ summary {
 
 @media (max-width: 640px) {
   .site-header {
-    grid-template-columns: auto 1fr auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
     column-gap: 0.38rem;
     row-gap: 0.48rem;
     padding: 0.75rem 3.5vw;
+  }
+
+  .brand {
+    order: 1;
+    margin-right: auto;
+  }
+
+  .header-actions {
+    order: 2;
+    grid-column: auto;
+    justify-self: auto;
+    width: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .nav-toggle {
+    order: 3;
+    grid-column: auto;
+    justify-self: auto;
+    margin-left: 0;
+  }
+
+  .main-nav {
+    order: 4;
+    grid-column: auto;
+    width: 100%;
   }
 
   .brand-logo {
