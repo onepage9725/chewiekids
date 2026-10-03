@@ -1349,17 +1349,25 @@ summary {
 
 @media (max-width: 900px) {
   .site-header {
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.55rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .brand {
+    grid-column: 1;
   }
 
   .nav-toggle {
     display: inline-block;
+    grid-column: 3;
+    justify-self: end;
   }
 
   .main-nav {
     order: 3;
+    grid-column: 1 / -1;
     width: 100%;
     display: none;
     justify-content: flex-start;
@@ -1376,8 +1384,17 @@ summary {
   }
 
   .header-actions {
-    width: 100%;
-    justify-content: flex-start;
+    grid-column: 2;
+    justify-self: end;
+    width: auto;
+    justify-content: flex-end;
+    gap: 0.45rem;
+    flex-wrap: nowrap;
+  }
+
+  .header-actions .btn-mini {
+    padding: 0.48rem 0.78rem;
+    font-size: 0.86rem;
   }
 
   .hero-message-content {
@@ -1463,6 +1480,27 @@ summary {
 }
 
 @media (max-width: 640px) {
+  .site-header {
+    grid-template-columns: auto auto auto;
+    column-gap: 0.38rem;
+    row-gap: 0.48rem;
+    padding: 0.75rem 3.5vw;
+  }
+
+  .brand-logo {
+    height: 30px;
+  }
+
+  .header-actions .btn-mini {
+    padding: 0.42rem 0.65rem;
+    font-size: 0.8rem;
+  }
+
+  .btn-cart-header span {
+    min-width: 20px;
+    height: 20px;
+  }
+
   .main-nav a {
     font-size: 0.95rem;
     padding: 0.15rem 0;
