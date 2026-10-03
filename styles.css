@@ -1392,9 +1392,14 @@ summary {
     flex-wrap: nowrap;
   }
 
+  .header-actions .btn {
+    width: auto;
+  }
+
   .header-actions .btn-mini {
     padding: 0.48rem 0.78rem;
     font-size: 0.86rem;
+    white-space: nowrap;
   }
 
   .hero-message-content {
@@ -1481,7 +1486,7 @@ summary {
 
 @media (max-width: 640px) {
   .site-header {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto 1fr auto;
     column-gap: 0.38rem;
     row-gap: 0.48rem;
     padding: 0.75rem 3.5vw;
@@ -1494,6 +1499,10 @@ summary {
   .header-actions .btn-mini {
     padding: 0.42rem 0.65rem;
     font-size: 0.8rem;
+  }
+
+  .header-actions .btn {
+    width: auto;
   }
 
   .btn-cart-header span {
