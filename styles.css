@@ -921,28 +921,122 @@ h2 {
 }
 
 .testimonial-grid {
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.4s ease;
+  will-change: transform;
 }
 
-.testimonial-grid article {
+.testimonial-carousel {
+  position: relative;
+  margin-top: 1rem;
+  padding: 0.8rem 3.9rem;
+  border-radius: 22px;
+  border: 1px solid color-mix(in srgb, var(--champagne) 36%, white);
+  background: linear-gradient(130deg, #fff8ef 0%, #f9efdf 100%);
+  box-shadow: 0 12px 28px rgba(56, 37, 28, 0.1);
+}
+
+.testimonial-viewport {
+  overflow: hidden;
+}
+
+.testimonial-card {
+  flex: 0 0 calc((100% - 3rem) / 4);
+  display: flex;
+  flex-direction: column;
   background: #fff;
-  border: 1px solid color-mix(in srgb, var(--champagne) 30%, white);
-  border-radius: 16px;
-  padding: 0.95rem;
+  border: 1px solid color-mix(in srgb, var(--champagne) 32%, white);
+  border-radius: 22px;
+  box-shadow: 0 10px 22px rgba(56, 37, 28, 0.1);
+  overflow: hidden;
+  min-height: 100%;
 }
 
 .testimonial-image {
   width: 100%;
-  height: auto;
+  height: clamp(230px, 23vw, 360px);
+  object-fit: cover;
   display: block;
-  border-radius: 12px;
-  border: 1px solid color-mix(in srgb, var(--champagne) 30%, white);
-  margin-bottom: 0.65rem;
 }
 
-.testimonial-grid h3 {
-  margin: 0.15rem 0 0.35rem;
-  color: var(--chewie-red);
+.testimonial-stars {
+  margin: 0;
+  padding: 0.8rem 1rem 0.15rem;
+  color: #d9a53d;
+  font-size: 1.28rem;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.testimonial-copy {
+  margin: 0;
+  padding: 0 1rem;
+  color: color-mix(in srgb, var(--deep-brown) 90%, black);
+  font-family: "Baloo 2", cursive;
+  font-size: clamp(0.98rem, 1.05vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.42;
+}
+
+.testimonial-meta {
+  margin-top: auto;
+  padding: 0 1rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  flex-wrap: nowrap;
+}
+
+.testimonial-meta strong {
+  color: #2f3f4c;
+  font-size: clamp(0.95rem, 1.05vw, 1.15rem);
+  font-family: "Baloo 2", cursive;
+  white-space: nowrap;
+}
+
+.testimonial-meta span {
+  color: #58a479;
+  font-size: clamp(0.86rem, 0.92vw, 1rem);
+  font-family: "Baloo 2", cursive;
+  font-weight: 700;
+  margin-left: auto;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.testimonial-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--champagne) 56%, white);
+  background: color-mix(in srgb, white 90%, var(--warm-apricot));
+  color: #2f513f;
+  font-size: 1.65rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 10px 18px rgba(56, 37, 28, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.testimonial-control:hover {
+  transform: translateY(-50%) translateY(-1px);
+  box-shadow: 0 12px 22px rgba(56, 37, 28, 0.18);
+}
+
+.testimonial-control-prev {
+  left: 0.95rem;
+}
+
+.testimonial-control-next {
+  right: 0.95rem;
 }
 
 .feedback-carousel {
@@ -953,6 +1047,57 @@ h2 {
   border-radius: 20px;
   padding: 0.9rem;
   box-shadow: 0 12px 28px rgba(56, 37, 28, 0.1);
+}
+
+.feedback-carousel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.55rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--champagne) 38%, white);
+}
+
+.feedback-carousel-title {
+  margin: 0;
+  color: #111;
+  font-size: clamp(1.2rem, 1.9vw, 1.75rem);
+  font-weight: 900;
+  letter-spacing: 0.01em;
+}
+
+.feedback-carousel-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.feedback-carousel-control {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--champagne) 56%, white);
+  background: color-mix(in srgb, white 90%, var(--warm-apricot));
+  color: #2f513f;
+  font-size: 1.2rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feedback-carousel-control:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 14px rgba(56, 37, 28, 0.14);
+}
+
+.feedback-carousel-control:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 .feedback-carousel-viewport {
@@ -1031,9 +1176,92 @@ h2 {
   padding: 0.95rem;
 }
 
-.good-comments-row h3 {
-  margin: 0.15rem 0 0.35rem;
-  color: var(--chewie-red);
+.good-comment-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.good-comment-stars {
+  margin: 0;
+  color: #d9a53d;
+  font-size: 1.65rem;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.good-comment-name {
+  margin: 0;
+  color: #234f39;
+  font-family: "Baloo 2", cursive;
+  font-size: clamp(1.2rem, 1.55vw, 1.6rem);
+  line-height: 1.2;
+}
+
+.good-comment-copy {
+  margin: 0;
+  color: color-mix(in srgb, var(--deep-brown) 88%, black);
+  font-family: "Baloo 2", cursive;
+  font-size: clamp(0.98rem, 1.12vw, 1.2rem);
+  line-height: 1.42;
+}
+
+.good-comment-image {
+  margin-top: auto;
+  width: 100%;
+  height: clamp(250px, 24vw, 360px);
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--champagne) 28%, white);
+}
+
+.velocity-loop {
+  margin-top: 1.2rem;
+  border: 1px solid color-mix(in srgb, var(--champagne) 34%, white);
+  border-radius: 20px;
+  background: linear-gradient(130deg, #fff8ef 0%, #f9efdf 100%);
+  padding: 0.8rem;
+  box-shadow: 0 12px 24px rgba(56, 37, 28, 0.1);
+}
+
+.velocity-loop-mask {
+  display: flex;
+  gap: 0.8rem;
+  overflow: hidden;
+}
+
+.velocity-loop-track {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 0.8rem;
+  min-width: max-content;
+  animation: velocity-loop-scroll 18s linear infinite;
+}
+
+.velocity-loop-item {
+  margin: 0;
+  width: clamp(220px, 24vw, 360px);
+  aspect-ratio: 4 / 5;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--champagne) 30%, white);
+  background: #fff;
+}
+
+.velocity-loop-item img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+@keyframes velocity-loop-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 0.8rem));
+  }
 }
 
 .faq-footer-divider {
@@ -1370,6 +1598,12 @@ summary {
   color: color-mix(in srgb, var(--deep-brown) 78%, white);
 }
 
+@media (max-width: 1200px) {
+  .testimonial-card {
+    flex: 0 0 calc((100% - 2rem) / 3);
+  }
+}
+
 @media (max-width: 900px) {
   .site-header {
     display: grid;
@@ -1473,12 +1707,40 @@ summary {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .testimonial-card {
+    flex: 0 0 calc((100% - 1rem) / 2);
+  }
+
+  .testimonial-carousel {
+    padding: 0.75rem 3.2rem;
+  }
+
+  .testimonial-control {
+    width: 44px;
+    height: 44px;
+    font-size: 1.35rem;
+  }
+
+  .testimonial-control-prev {
+    left: 0.65rem;
+  }
+
+  .testimonial-control-next {
+    right: 0.65rem;
+  }
+
   .feedback-carousel-track {
     gap: 0.55rem;
   }
 
   .feedback-slide {
     flex: 0 0 calc((100% - 0.55rem) / 2);
+  }
+
+  .feedback-carousel-control {
+    width: 34px;
+    height: 34px;
+    font-size: 1.05rem;
   }
 
   .awards-grid {
@@ -1623,6 +1885,44 @@ summary {
     gap: 0.65rem;
   }
 
+  .testimonial-carousel {
+    padding: 0.65rem 2.4rem;
+  }
+
+  .testimonial-card {
+    flex: 0 0 100%;
+  }
+
+  .testimonial-image {
+    height: clamp(220px, 62vw, 300px);
+  }
+
+  .testimonial-copy {
+    font-size: clamp(1.05rem, 4.3vw, 1.25rem);
+  }
+
+  .testimonial-meta strong {
+    font-size: clamp(1rem, 4vw, 1.2rem);
+  }
+
+  .testimonial-meta span {
+    font-size: clamp(0.92rem, 3.6vw, 1.08rem);
+  }
+
+  .testimonial-control {
+    width: 34px;
+    height: 34px;
+    font-size: 1.05rem;
+  }
+
+  .testimonial-control-prev {
+    left: 0.45rem;
+  }
+
+  .testimonial-control-next {
+    right: 0.45rem;
+  }
+
   .feedback-carousel-track {
     gap: 0.5rem;
   }
@@ -1633,6 +1933,16 @@ summary {
 
   .feedback-slide img {
     height: clamp(220px, 68vw, 330px);
+  }
+
+  .feedback-carousel-title {
+    font-size: clamp(1.08rem, 5vw, 1.28rem);
+  }
+
+  .feedback-carousel-control {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
   }
 
   .package-icon {
@@ -1649,6 +1959,10 @@ summary {
 
   .good-comments-row {
     grid-template-columns: 1fr;
+  }
+
+  .velocity-loop-item {
+    width: clamp(200px, 66vw, 300px);
   }
 
   .cart-drawer {

@@ -62,9 +62,66 @@ if (hourEl && minuteEl && secondEl) {
   setInterval(tick, 1000);
 }
 
+const testimonialTrack = document.getElementById('testimonialTrack');
+const testimonialPrevBtn = document.getElementById('testimonialPrev');
+const testimonialNextBtn = document.getElementById('testimonialNext');
+const testimonialCards = testimonialTrack ? Array.from(testimonialTrack.querySelectorAll('.testimonial-card')) : [];
+
+if (testimonialTrack && testimonialPrevBtn && testimonialNextBtn && testimonialCards.length) {
+  let testimonialIndex = 0;
+  let testimonialVisibleCards = 4;
+  let testimonialMaxIndex = 0;
+
+  function getVisibleTestimonialCards() {
+    if (window.innerWidth <= 640) return 1;
+    if (window.innerWidth <= 900) return 2;
+    if (window.innerWidth <= 1200) return 3;
+    return 4;
+  }
+
+  function getTestimonialGap() {
+    const styles = window.getComputedStyle(testimonialTrack);
+    return Number.parseFloat(styles.gap || styles.columnGap || '0') || 0;
+  }
+
+  function setTestimonialTrackPosition() {
+    const firstCard = testimonialCards[0];
+    if (!firstCard) return;
+    const cardWidth = firstCard.getBoundingClientRect().width;
+    const offset = testimonialIndex * (cardWidth + getTestimonialGap());
+    testimonialTrack.style.transform = `translateX(${-offset}px)`;
+  }
+
+  function setTestimonialSlide(nextIndex) {
+    if (nextIndex < 0) {
+      testimonialIndex = testimonialMaxIndex;
+    } else if (nextIndex > testimonialMaxIndex) {
+      testimonialIndex = 0;
+    } else {
+      testimonialIndex = nextIndex;
+    }
+    setTestimonialTrackPosition();
+  }
+
+  function syncTestimonialLayout() {
+    testimonialVisibleCards = getVisibleTestimonialCards();
+    testimonialMaxIndex = Math.max(0, testimonialCards.length - testimonialVisibleCards);
+    if (testimonialIndex > testimonialMaxIndex) testimonialIndex = 0;
+    setTestimonialTrackPosition();
+  }
+
+  testimonialPrevBtn.addEventListener('click', () => setTestimonialSlide(testimonialIndex - 1));
+  testimonialNextBtn.addEventListener('click', () => setTestimonialSlide(testimonialIndex + 1));
+  window.addEventListener('resize', syncTestimonialLayout);
+
+  syncTestimonialLayout();
+}
+
 const carouselSlides = Array.from(document.querySelectorAll('.feedback-slide'));
 const carouselTrack = document.getElementById('feedbackCarouselTrack');
 const carouselDotsWrap = document.getElementById('feedbackCarouselDots');
+const carouselPrevBtn = document.getElementById('feedbackCarouselPrev');
+const carouselNextBtn = document.getElementById('feedbackCarouselNext');
 const feedbackLightbox = document.getElementById('feedbackLightbox');
 const lightboxImage = document.getElementById('lightboxImage');
 const lightboxClose = document.getElementById('lightboxClose');
@@ -139,6 +196,14 @@ if (carouselSlides.length && carouselDotsWrap && carouselTrack) {
     setActiveSlide(carouselIndex + 1);
   }
 
+  function prevSlide() {
+    if (carouselIndex <= 0) {
+      setActiveSlide(maxIndex);
+      return;
+    }
+    setActiveSlide(carouselIndex - 1);
+  }
+
   carouselSlides.forEach((slide, index) => {
     slide.addEventListener('click', () => {
       if (feedbackLightbox && lightboxImage) {
@@ -159,6 +224,14 @@ if (carouselSlides.length && carouselDotsWrap && carouselTrack) {
     const nextIndex = Number(target.dataset.index);
     if (!Number.isNaN(nextIndex)) setActiveSlide(nextIndex);
   });
+
+  if (carouselPrevBtn) {
+    carouselPrevBtn.addEventListener('click', prevSlide);
+  }
+
+  if (carouselNextBtn) {
+    carouselNextBtn.addEventListener('click', nextSlide);
+  }
 
   window.addEventListener('resize', syncLayout);
   setInterval(nextSlide, 3200);
