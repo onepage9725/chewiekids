@@ -38,6 +38,23 @@ function ensureString(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+function buildCustomerAddress(customer) {
+  const parts = [
+    ensureString(customer.address),
+    ensureString(customer.apartment),
+    ensureString(customer.postcode),
+    ensureString(customer.city),
+    ensureString(customer.state),
+    'Malaysia'
+  ].filter(Boolean);
+
+  return parts.join(', ');
+}
+
+function limitLength(value, max) {
+  return value.length > max ? value.slice(0, max) : value;
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     json(res, 405, { error: 'Method not allowed' });
@@ -68,6 +85,7 @@ module.exports = async (req, res) => {
     const name = ensureString(customer.name);
     const email = ensureString(customer.email);
     const mobile = ensureString(customer.mobile);
+    const fullAddress = limitLength(buildCustomerAddress(customer), 120);
 
     if (!name) {
       json(res, 400, { error: 'Customer name is required' });
@@ -93,8 +111,8 @@ module.exports = async (req, res) => {
     body.set('redirect_url', redirectUrl);
     body.set('reference_1_label', 'Order Ref');
     body.set('reference_1', orderRef);
-    body.set('reference_2_label', 'Contact');
-    body.set('reference_2', mobile || email);
+    body.set('reference_2_label', 'Address');
+    body.set('reference_2', fullAddress || 'N/A');
     body.set('deliver', 'false');
 
     if (email) body.set('email', email);
